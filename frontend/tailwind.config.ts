@@ -28,7 +28,9 @@ const config: Config = {
         clay: "#E08A6B",
         // Merah - status error / peringatan
         alert: "#B5342A",
-        
+        rank1: "#3E4A2D",
+        rank2: "#8A7B2E",
+        rank3: "#8C3B33",
         
       },
       fontFamily: {
