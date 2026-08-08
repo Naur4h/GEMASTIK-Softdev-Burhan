@@ -8,8 +8,8 @@ import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import { MapPin } from "lucide-react";
+import { STORAGE_KEY_FORM, type AnalisisPayload } from "@/lib/api";
 
-// Leaflet cuma bisa jalan di client, jadi SSR harus dimatikan
 const MapPicker = dynamic(() => import("@/components/MapPicker"), {
   ssr: false,
   loading: () => (
@@ -24,6 +24,9 @@ export default function AnalisisPage() {
   const [showResetModal, setShowResetModal] = useState(false);
   const [lat, setLat] = useState<number | null>(null);
   const [lng, setLng] = useState<number | null>(null);
+  const [luasLahan, setLuasLahan] = useState("");
+  const [musimTanam, setMusimTanam] = useState("");
+  const [formError, setFormError] = useState("");
 
   const handleMapSelect = (newLat: number, newLng: number) => {
     setLat(Number(newLat.toFixed(4)));
@@ -36,13 +39,32 @@ export default function AnalisisPage() {
       handleMapSelect(pos.coords.latitude, pos.coords.longitude);
     });
   };
+const handleSubmit = () => {
+  if (lat === null || lng === null) {
+    setFormError("Isi koordinat dulu ya (klik peta atau isi manual).");
+    return;
+  }
 
-  const handleSubmit = () => {
-    router.push("/analisis/loading");
-  };
+  setFormError("");
+const payload = {
+  lat,
+  lon: lng, // state variable-nya tetep namanya `lng` di form, cuma pas dikirim ke API jadi field `lon`
+  luas_lahan: luasLahan ? Number(luasLahan) : undefined,
+  musim_target: musimTanam || undefined,
+};
+console.log(payload);
+  sessionStorage.setItem(STORAGE_KEY_FORM, JSON.stringify(payload));
+  router.push("/analisis/loading");
+};
 
-  const handleReset = () => {
-    setShowResetModal(true);
+  const handleReset = () => setShowResetModal(true);
+
+  const confirmReset = () => {
+    setLat(null);
+    setLng(null);
+    setLuasLahan("");
+    setMusimTanam("");
+    setShowResetModal(false);
   };
 
   return (
@@ -101,6 +123,10 @@ export default function AnalisisPage() {
             </div>
           </div>
 
+          {formError && (
+            <p className="mb-4 text-sm font-semibold text-red-300">{formError}</p>
+          )}
+
           <div className="mb-4">
             <label className="mb-1 block text-xs font-bold uppercase">
               Masukkan Luas Lahan (Opsional)
@@ -108,6 +134,8 @@ export default function AnalisisPage() {
             <input
               type="text"
               placeholder="Masukkan luas lahan (hektar). Contoh: 67"
+              value={luasLahan}
+              onChange={(e) => setLuasLahan(e.target.value)}
               className="w-full rounded-lg bg-cream-light px-3 py-2 text-sm text-forest-dark outline-none"
             />
           </div>
@@ -116,10 +144,14 @@ export default function AnalisisPage() {
             <label className="mb-1 block text-xs font-bold uppercase">
               Masukkan Target Musim Tanam (Opsional)
             </label>
-            <select className="w-full rounded-lg bg-cream-light px-3 py-2 text-sm text-forest-dark outline-none">
-              <option>Pilih musim tanam</option>
-              <option>Musim Hujan</option>
-              <option>Musim Kemarau</option>
+            <select
+              value={musimTanam}
+              onChange={(e) => setMusimTanam(e.target.value)}
+              className="w-full rounded-lg bg-cream-light px-3 py-2 text-sm text-forest-dark outline-none"
+            >
+              <option value="">Pilih musim tanam</option>
+              <option value="hujan">Musim Hujan</option>
+              <option value="kemarau">Musim Kemarau</option>
             </select>
           </div>
 
@@ -139,11 +171,7 @@ export default function AnalisisPage() {
         open={showResetModal}
         onClose={() => setShowResetModal(false)}
         title="Kosongkan semua data yang diisi?"
-        onConfirm={() => {
-          setLat(null);
-          setLng(null);
-          setShowResetModal(false);
-        }}
+        onConfirm={confirmReset}
       />
     </>
   );

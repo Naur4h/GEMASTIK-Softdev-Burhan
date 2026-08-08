@@ -1,6 +1,7 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
+  
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -27,6 +28,8 @@ const config: Config = {
         clay: "#E08A6B",
         // Merah - status error / peringatan
         alert: "#B5342A",
+        
+        
       },
       fontFamily: {
         display: ["var(--font-display)", "sans-serif"],

@@ -1,25 +1,55 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import Modal from "@/components/Modal";
 import { Check, Circle, Loader2 } from "lucide-react";
+import { postAnalisisLahan, STORAGE_KEY_FORM, STORAGE_KEY_RESULT } from "@/lib/api";
 
 const steps = ["Data satelit", "Data cuaca", "Data tanah", "Data elevasi"];
 
 export default function LoadingPage() {
   const router = useRouter();
   const [doneCount, setDoneCount] = useState(0);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [showError, setShowError] = useState(false);
+  const hasFetched = useRef(false);
 
   useEffect(() => {
-    if (doneCount >= steps.length) {
-      const t = setTimeout(() => router.push("/analisis/hasil"), 600);
-      return () => clearTimeout(t);
+    if (hasFetched.current) return;
+    hasFetched.current = true;
+
+    const raw = sessionStorage.getItem(STORAGE_KEY_FORM);
+    if (!raw) {
+      router.push("/analisis");
+      return;
     }
-    const t = setTimeout(() => setDoneCount((c) => c + 1), 800);
-    return () => clearTimeout(t);
-  }, [doneCount, router]);
+    const payload = JSON.parse(raw);
+
+    // Animasi checklist jalan pelan-pelan sambil nunggu response asli
+    const tick = setInterval(() => {
+      setDoneCount((c) => (c < steps.length - 1 ? c + 1 : c));
+    }, 700);
+
+    postAnalisisLahan(payload)
+      .then((data) => {
+        clearInterval(tick);
+        setDoneCount(steps.length);
+        sessionStorage.setItem(STORAGE_KEY_RESULT, JSON.stringify(data));
+        
+        setTimeout(() => router.push("/analisis/hasil"), 500);
+      })
+      .catch((err) => {
+    console.error("Gagal fetch:", err);
+  clearInterval(tick);
+  setErrorMessage(err.message || "Terjadi kesalahan yang tidak diketahui.");
+  setShowError(true);
+      });
+
+    return () => clearInterval(tick);
+  }, [router]);
 
   return (
     <div className="flex min-h-screen flex-col">
@@ -47,6 +77,15 @@ export default function LoadingPage() {
       </section>
 
       <Footer />
+
+ <Modal
+  open={showError}
+  onClose={() => router.push("/analisis")}
+  variant="error"
+  title="Gagal Memuat Data Lahan"
+  description={errorMessage || "Koneksi ke server data satelit atau cuaca sedang terganggu. Silakan periksa koneksi internet Anda atau coba beberapa saat lagi."}
+  onConfirm={() => window.location.reload()}
+/>
     </div>
   );
 }

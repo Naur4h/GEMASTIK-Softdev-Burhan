@@ -1,40 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
 import InfoStat from "@/components/InfoStat";
-import RecommendationCard from "@/components/RecommendationCard";
-import { ChevronUp, ChevronDown } from "lucide-react";
 import NdviScale from "@/components/NdviScale";
-
-const allRecommendations = [
-  { rank: 1 as const, name: "Sorgum", latin: "Sorghum bicolor", note: "Tahan kekeringan | pH 5.0-8.5 | dataran menengah", score: 90 },
-  { rank: 2 as const, name: "Sorgum", latin: "Sorghum bicolor", note: "Tahan kekeringan | pH 5.0-8.5 | dataran menengah", score: 78 },
-  { rank: 3 as const, name: "Sorgum", latin: "Sorghum bicolor", note: "Tahan kekeringan | pH 5.0-8.5 | dataran menengah", score: 55 },
-  { rank: 3 as const, name: "Singkong", latin: "Manihot esculenta", note: "Tahan lahan marginal | pH 4.5-8.0 | dataran rendah-tinggi", score: 47 },
-  { rank: 3 as const, name: "Ubi Jalar", latin: "Ipomoea batatas", note: "Tahan kekeringan sedang | pH 5.5-6.5 | dataran rendah", score: 40 },
-  { rank: 3 as const, name: "Jagung", latin: "Zea mays", note: "Butuh curah hujan cukup | pH 5.5-7.5 | dataran rendah-menengah", score: 32 },
-];
-
-const TOP_COUNT = 3;
+import RecommendationCard from "@/components/RecommendationCard";
+import { RecommendResponse, STORAGE_KEY_RESULT } from "@/lib/api";
 
 export default function HasilPage() {
   const router = useRouter();
   const [showResetModal, setShowResetModal] = useState(false);
-  const [showAll, setShowAll] = useState(false);
+  const [data, setData] = useState<RecommendResponse | null>(null);
 
-  const visibleRecommendations = showAll
-    ? allRecommendations
-    : allRecommendations.slice(0, TOP_COUNT);
+  useEffect(() => {
+    const raw = sessionStorage.getItem(STORAGE_KEY_RESULT);
+    if (!raw) {
+      router.push("/analisis");
+      return;
+    }
+    setData(JSON.parse(raw));
+  }, [router]);
+
+  if (!data) return null;
+
+  const { kondisi_lahan, rekomendasi } = data.recommendation;
 
   return (
-    <>
+    <div className="flex min-h-screen flex-col">
       <Navbar activeStep="Langkah 3: Terima Rekomendasi" />
-      <section className="mx-auto max-w-4xl px-5 py-10 md:px-8">
+
+      <section className="mx-auto w-full max-w-4xl flex-1 px-5 py-10 md:px-8">
         <button onClick={() => router.push("/analisis")} className="mb-4 text-sm text-forest-dark hover:underline">
           ← Kembali untuk analisis
         </button>
@@ -45,10 +44,23 @@ export default function HasilPage() {
               Kondisi Lingkungan Terdeteksi
             </h3>
             <div className="grid grid-cols-2 gap-3">
-              <InfoStat label="Curah Hujan" value="340" unit="mm/musim" tag="Kering" />
-              <InfoStat label="pH Tanah" value="5.2" tag="Masam" />
-              <InfoStat label="Elevasi" value="780" unit="mdpl" tag="" />
-              <InfoStat label="NDVI Rata-rata" value="0.31" tag="Rendah" />
+              <InfoStat
+                label="Curah Hujan"
+                value={String(kondisi_lahan.curah_hujan)}
+                unit="mm/musim"
+                tag={kondisi_lahan.curah_hujan < 1000 ? "Kering" : "Cukup"}
+              />
+              <InfoStat
+                label="pH Tanah"
+                value={String(kondisi_lahan.ph_tanah)}
+                tag={kondisi_lahan.ph_tanah < 6 ? "Masam" : "Netral"}
+              />
+              <InfoStat label="Elevasi" value={String(kondisi_lahan.elevasi)} unit="mdpl" tag="" />
+              <InfoStat
+                label="Kesuburan Tanah"
+                value={String(kondisi_lahan.kesuburan_tanah)}
+                tag={kondisi_lahan.kesuburan_tanah > 0.6 ? "Subur" : "Sedang"}
+              />
             </div>
             <NdviScale />
           </div>
@@ -59,26 +71,18 @@ export default function HasilPage() {
             </h3>
 
             <div className="space-y-3">
-              {visibleRecommendations.map((r, i) => (
-                <RecommendationCard key={i} {...r} onClick={() => router.push("/analisis/detail")} />
+              {rekomendasi.map((r, i) => (
+                <RecommendationCard
+                  key={r.id}
+                  rank={i + 1}
+                  name={r.nama}
+                  latin={r.nama_latin}
+                  note={`${r.kesuburan_ideal} | pH ${r.ph_ideal}`}
+                  score={Math.round(r.skor_kesesuaian * 100)}
+                  onClick={() => router.push(`/analisis/detail/${r.id}`)}
+                />
               ))}
             </div>
-
-            <Button
-              variant="ghost"
-              className="mt-4 flex w-full items-center justify-center gap-1"
-              onClick={() => setShowAll((v) => !v)}
-            >
-              {showAll ? (
-                <>
-                  Sembunyikan sebagian <ChevronUp className="h-4 w-4" />
-                </>
-              ) : (
-                <>
-                  Lihat semua rekomendasi <ChevronDown className="h-4 w-4" />
-                </>
-              )}
-            </Button>
           </div>
         </div>
 
@@ -88,6 +92,7 @@ export default function HasilPage() {
           </Button>
         </div>
       </section>
+
       <Footer />
 
       <Modal
@@ -96,6 +101,6 @@ export default function HasilPage() {
         title="Isi ulang data?"
         onConfirm={() => router.push("/analisis")}
       />
-    </>
+    </div>
   );
 }
