@@ -50,7 +50,7 @@ export default function DetailTanamanPage() {
       <section className="flex-1">
         <button
           onClick={() => router.push("/analisis/hasil")}
-          className="text-sm text-forest-dark hover:underline"
+          className="mt-4 mb-4 text-sm text-forest-dark hover:underline"
         >
           ← Kembali ke hasil analisis
         </button>

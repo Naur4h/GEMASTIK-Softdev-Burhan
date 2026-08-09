@@ -20,21 +20,21 @@ export default function HomePage() {
             Kenali Tanahmu, Tanam Lebih{" "}
             <span className="bg-forest px-1.5 text-cream-light">Beragam</span>
           </h1>
-
-          <a href="/analisis" className="mt-4 inline-block">
-            <button className="rounded-full bg-cream-light px-5 py-2.5 text-sm font-semibold text-forest-dark">
+            <a
+              href="/analisis"
+              className="relative z-10 mt-4 inline-block rounded-full bg-cream-light px-5 py-2.5 text-sm font-semibold text-forest-dark"
+            >
               Coba Sekarang ↗
-            </button>
-          </a>
+            </a>
 
-         <div className="absolute -bottom-4 -right-4 h-80 w-80">
-            <Image
-              src="/images/hand.png"
-              alt="Tangan menabur tanah"
-              fill
-              className="object-contain"
-            />
-          </div>
+            <div className="pointer-events-none absolute -bottom-4 -right-4 h-80 w-80">
+              <Image
+                src="/images/hand.png"
+                alt="Tangan menabur tanah"
+                fill
+                className="object-contain"
+              />
+            </div>
         </div>
       </section>
 
