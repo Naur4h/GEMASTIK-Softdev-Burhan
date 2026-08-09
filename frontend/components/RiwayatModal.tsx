@@ -106,7 +106,7 @@ export default function RiwayatModal({
     <div className="fixed inset-0 z-[9999] flex items-center justify-center bg-black/40 px-4">
       <div className="relative z-[10000] w-full max-w-md overflow-hidden rounded-3xl bg-white shadow-xl">
         {/* HEADER */}
-        <div className="bg-forest px-5 py-4">
+        <div className="bg-[#90A955] px-5 py-4">
           <h2 className="font-display text-lg font-bold text-white">
             RIWAYAT
           </h2>
@@ -119,7 +119,7 @@ export default function RiwayatModal({
               key={i}
               className="flex w-full items-stretch overflow-hidden rounded-2xl bg-white shadow-sm"
             >
-              <span className="flex w-12 shrink-0 items-center justify-center bg-moss font-display text-lg font-bold text-white">
+              <span className="flex w-12 shrink-0 items-center justify-center bg-[#90A955] font-display text-lg font-bold text-white">
                 {i + 1}
               </span>
 
@@ -146,7 +146,7 @@ export default function RiwayatModal({
         <div className="px-5 pb-5">
           <button
             onClick={onClose}
-            className="w-full rounded-full bg-forest py-2.5 text-sm font-semibold text-white"
+            className="w-full rounded-full bg-[#315840] py-2.5 text-sm font-semibold text-white"
           >
             TUTUP
           </button>

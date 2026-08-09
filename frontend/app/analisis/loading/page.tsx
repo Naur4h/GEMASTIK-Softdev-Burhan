@@ -61,7 +61,7 @@ export default function LoadingPage() {
   label="Langkah 2: Analisis Cerdas NUSA-CROP"
 />
       <section className="flex flex-1 items-center justify-center px-4 py-6">
-        <div className="w-full max-w-sm rounded-2xl bg-loadingCard p-8 text-center text-white">
+<div className="-mt-6 w-full max-w-sm rounded-2xl bg-loadingCard p-8 text-center text-white">
           <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-white">
             <Loader2 className="h-7 w-7 animate-spin text-loadingCard" />
           </div>
