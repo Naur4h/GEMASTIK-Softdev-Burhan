@@ -4,140 +4,103 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import Button from "@/components/Button";
+import StepProgress from "@/components/StepProgress";
 import Modal from "@/components/Modal";
-import InfoStat from "@/components/InfoStat";
+import RiwayatModal from "@/components/RiwayatModal";
 import NdviScale from "@/components/NdviScale";
 import RecommendationCard from "@/components/RecommendationCard";
-import {
-  RecommendResponse,
-  STORAGE_KEY_RESULT,
-} from "@/lib/api";
+import { RecommendResponse, STORAGE_KEY_RESULT } from "@/lib/api";
 
 export default function HasilPage() {
   const router = useRouter();
   const [showResetModal, setShowResetModal] = useState(false);
+  const [showRiwayat, setShowRiwayat] = useState(false);
   const [data, setData] = useState<RecommendResponse | null>(null);
 
   useEffect(() => {
     const raw = sessionStorage.getItem(STORAGE_KEY_RESULT);
-
-    if (!raw) {
-      router.push("/analisis");
-      return;
-    }
-
+    if (!raw) { router.push("/analisis"); return; }
     setData(JSON.parse(raw));
   }, [router]);
 
   if (!data) return null;
-
   const { kondisi_lahan, rekomendasi } = data.recommendation;
 
   return (
-    <>
-      <Navbar />
+   <div className="flex min-h-screen flex-col bg-white">
+      <Navbar onRiwayatClick={() => setShowRiwayat(true)} />
+      <StepProgress step={3} label="Langkah 3: Terima Rekomendasi" />
 
-      <section className="mx-auto w-full max-w-4xl flex-1 px-5 py-10 md:px-8">
-        <button
-          onClick={() => router.push("/analisis")}
-          className="mb-4 text-sm text-forest-dark hover:underline"
-        >
-          ← Kembali untuk analisis
+      <section className="flex-1 px-4 py-4">
+        <button onClick={() => setShowResetModal(true)} className="mb-3 text-sm text-forest-dark hover:underline">
+          ← Isi ulang data
         </button>
 
-        <div className="grid gap-5 md:grid-cols-2">
-          {/* KONDISI LINGKUNGAN */}
-          <div className="rounded-3xl bg-cream-light p-6 shadow-sm md:self-start">
-            <h3 className="mb-4 font-display text-sm font-bold uppercase text-forest-dark">
-              Kondisi Lingkungan Terdeteksi
-            </h3>
+<div className="relative">
+  <div className="rounded-2xl bg-kondisiCard px-4 py-3 text-center">
+    <h3 className="font-display text-sm font-bold uppercase text-white">
+      Kondisi Lingkungan Terdeteksi
+    </h3>
+  </div>
+  <div className="-mt-3 rounded-2xl bg-white p-4 pt-6 shadow-md">
+    <div className="grid grid-cols-2 gap-3">
+      <div className="rounded-xl bg-kondisiCard p-3 text-white">
+        <p className="text-[10px] font-semibold uppercase opacity-80">Curah Hujan</p>
+        <p className="font-display text-lg font-bold">{kondisi_lahan.curah_hujan} <span className="text-xs font-normal">mm/musim</span></p>
+        <span className="mt-1 inline-block rounded-full bg-sand px-2 py-0.5 text-[10px] font-semibold text-forest-dark">
+          {kondisi_lahan.curah_hujan < 1000 ? "Kering" : "Cukup"}
+        </span>
+      </div>
+      <div className="rounded-xl bg-kondisiCard p-3 text-white">
+        <p className="text-[10px] font-semibold uppercase opacity-80">pH Tanah</p>
+        <p className="font-display text-lg font-bold">{kondisi_lahan.ph_tanah}</p>
+        <span className="mt-1 inline-block rounded-full bg-sand px-2 py-0.5 text-[10px] font-semibold text-forest-dark">
+          {kondisi_lahan.ph_tanah < 6 ? "Masam" : "Netral"}
+        </span>
+      </div>
+      <div className="rounded-xl bg-kondisiCard p-3 text-white">
+        <p className="text-[10px] font-semibold uppercase opacity-80">Elevasi</p>
+        <p className="font-display text-lg font-bold">{kondisi_lahan.elevasi} <span className="text-xs font-normal">mdpl</span></p>
+      </div>
+      <div className="rounded-xl bg-kondisiCard p-3 text-white">
+        <p className="text-[10px] font-semibold uppercase opacity-80">NDVI Rata-rata</p>
+        <p className="font-display text-lg font-bold">{kondisi_lahan.kesuburan_tanah}</p>
+        <span className="mt-1 inline-block rounded-full bg-sand px-2 py-0.5 text-[10px] font-semibold text-forest-dark">
+          {kondisi_lahan.kesuburan_tanah > 0.6 ? "Subur" : "Sedang"}
+        </span>
+      </div>
+    </div>
+    <NdviScale />
+  </div>
+</div>
 
-            <div className="grid grid-cols-2 gap-3">
-              <InfoStat
-                label="Curah Hujan"
-                value={String(kondisi_lahan.curah_hujan)}
-                unit="mm/musim"
-                tag={
-                  kondisi_lahan.curah_hujan < 1000
-                    ? "Kering"
-                    : "Cukup"
-                }
-              />
-
-              <InfoStat
-                label="pH Tanah"
-                value={String(kondisi_lahan.ph_tanah)}
-                tag={
-                  kondisi_lahan.ph_tanah < 6
-                    ? "Masam"
-                    : "Netral"
-                }
-              />
-
-              <InfoStat
-                label="Elevasi"
-                value={String(kondisi_lahan.elevasi)}
-                unit="mdpl"
-                tag=""
-              />
-
-              <InfoStat
-                label="Kesuburan Tanah"
-                value={String(kondisi_lahan.kesuburan_tanah)}
-                tag={
-                  kondisi_lahan.kesuburan_tanah > 0.6
-                    ? "Subur"
-                    : "Sedang"
-                }
-              />
-            </div>
-
-            <NdviScale />
-          </div>
-
-          {/* REKOMENDASI */}
-          <div className="rounded-3xl bg-cream-light p-6 shadow-sm">
-            <h3 className="mb-4 font-display text-sm font-bold uppercase text-forest-dark">
-              Rekomendasi Tanaman Lokal
-            </h3>
-
-            <div className="space-y-3">
-              {rekomendasi.map((r, i) => (
-                <RecommendationCard
-                  key={r.id}
-                  rank={i + 1}
-                  name={r.nama}
-                  latin={r.nama_latin}
-                  note={`${r.kesuburan_ideal} | pH ${r.ph_ideal}`}
-                  score={Math.round(r.skor_kesesuaian * 100)}
-                  onClick={() =>
-                    router.push(`/analisis/detail/${r.id}`)
-                  }
-                />
-              ))}
-            </div>
-
-            <div className="mt-6 text-center">
-              <Button
-                variant="secondary"
-                onClick={() => setShowResetModal(true)}
-              >
-                ISI ULANG DATA
-              </Button>
-            </div>
-          </div>
-        </div>
+   <div className="relative mt-6">
+  <div className="rounded-2xl bg-kondisiCard px-4 py-3 text-center">
+    <h3 className="font-display text-sm font-bold uppercase text-white">
+      Kondisi Lingkungan Terdeteksi
+    </h3>
+  </div>
+  <div className="-mt-3 rounded-2xl bg-white p-4 pt-6 shadow-md">
+    <div className="space-y-3">
+      {rekomendasi.map((r, i) => (
+        <RecommendationCard
+          key={r.id}
+          rank={i + 1}
+          name={r.nama}
+          latin={r.nama_latin}
+          note={`${r.kesuburan_ideal} | pH ${r.ph_ideal}`}
+          score={Math.round(r.skor_kesesuaian * 100)}
+          onClick={() => router.push(`/analisis/detail/${r.id}`)}
+        />
+      ))}
+    </div>
+  </div>
+</div>
       </section>
 
       <Footer />
-
-      <Modal
-        open={showResetModal}
-        onClose={() => setShowResetModal(false)}
-        title="Isi ulang data?"
-        onConfirm={() => router.push("/analisis")}
-      />
-    </>
+      <Modal open={showResetModal} onClose={() => setShowResetModal(false)} title="Apakah anda yakin untuk isi ulang data?" onConfirm={() => router.push("/analisis")} />
+      <RiwayatModal open={showRiwayat} onClose={() => setShowRiwayat(false)} />
+    </div>
   );
 }

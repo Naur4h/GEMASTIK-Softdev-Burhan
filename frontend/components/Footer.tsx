@@ -1,11 +1,11 @@
 export default function Footer() {
   return (
-    <footer className="w-full bg-moss/90">
-      <div className="mx-auto flex max-w-6xl flex-wrap items-center justify-center gap-3 px-5 py-4 text-sm font-medium text-cream-light md:justify-between md:gap-6">
+    <footer className="w-full bg-footer">
+      <div className="flex flex-wrap items-center justify-center gap-2 px-4 py-3 text-xs font-medium text-forest-dark">
         <span>Diversifikasi Pangan</span>
-        <span className="text-cream-light/70">☀</span>
+        <span>☀</span>
         <span>Nusa-Crop</span>
-        <span className="text-cream-light/70">☀</span>
+        <span>☀</span>
         <span>Diversifikasi Pangan</span>
       </div>
     </footer>

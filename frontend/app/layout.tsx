@@ -1,16 +1,11 @@
 import type { Metadata } from "next";
-import { Poppins, Inter } from "next/font/google";
+import { Lexend } from "next/font/google";
 import "./globals.css";
 
-const display = Poppins({
+const lexend = Lexend({
   subsets: ["latin"],
-  weight: ["600", "700", "800"],
-  variable: "--font-display",
-});
-
-const body = Inter({
-  subsets: ["latin"],
-  variable: "--font-body",
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-lexend",
 });
 
 export const metadata: Metadata = {
@@ -26,10 +21,14 @@ export default function RootLayout({
 }) {
   return (
     <html lang="id">
-      <body
-        className={`${display.variable} ${body.variable} font-body bg-cream text-forest-dark`}
-      >
-        {children}
+     <body className={`${lexend.variable} font-lexend`}>
+        {/* Background di luar container - abu-abu, cuma kelihatan di layar lebar */}
+        <div className="min-h-screen bg-gray-300">
+          {/* Container utama - lebar tetap ala mobile, di tengah layar */}
+          <div className="mx-auto min-h-screen w-full max-w-[420px] bg-white shadow-2xl">
+            {children}
+          </div>
+        </div>
       </body>
     </html>
   );

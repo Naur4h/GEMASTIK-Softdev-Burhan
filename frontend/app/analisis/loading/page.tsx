@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
+import StepProgress from "@/components/StepProgress";
 import Modal from "@/components/Modal";
 import { Check, Circle, Loader2 } from "lucide-react";
 import { postAnalisisLahan, STORAGE_KEY_FORM, STORAGE_KEY_RESULT } from "@/lib/api";
@@ -28,7 +29,6 @@ export default function LoadingPage() {
     }
     const payload = JSON.parse(raw);
 
-    // Animasi checklist jalan pelan-pelan sambil nunggu response asli
     const tick = setInterval(() => {
       setDoneCount((c) => (c < steps.length - 1 ? c + 1 : c));
     }, 700);
@@ -38,36 +38,36 @@ export default function LoadingPage() {
         clearInterval(tick);
         setDoneCount(steps.length);
         sessionStorage.setItem(STORAGE_KEY_RESULT, JSON.stringify(data));
-        
         setTimeout(() => router.push("/analisis/hasil"), 500);
       })
       .catch((err) => {
-    console.error("Gagal fetch:", err);
-  clearInterval(tick);
-  setErrorMessage(err.message || "Terjadi kesalahan yang tidak diketahui.");
-  setShowError(true);
+        console.error("Gagal fetch:", err);
+        clearInterval(tick);
+        setErrorMessage(err.message || "Terjadi kesalahan yang tidak diketahui.");
+        setShowError(true);
       });
 
     return () => clearInterval(tick);
   }, [router]);
 
   return (
-    <div className="flex min-h-screen flex-col">
-      <Navbar activeStep="Langkah 2: Analisis Cerdas NUSA-CROP" />
+    <div className="flex min-h-screen flex-col bg-white">
+      <Navbar />
+      <StepProgress step={2} label="Langkah 2: Analisis Cerdas NUSA-CROP" />
 
-      <section className="flex flex-1 items-center justify-center px-5 py-10 md:px-8">
-        <div className="w-full max-w-md rounded-3xl bg-forest p-10 text-center text-cream-light">
-          <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-cream-light">
-            <Loader2 className="h-8 w-8 animate-spin text-forest" />
+      <section className="flex flex-1 items-center justify-center px-4 py-6">
+        <div className="w-full max-w-sm rounded-2xl bg-loadingCard p-8 text-center text-white">
+          <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-white">
+            <Loader2 className="h-7 w-7 animate-spin text-loadingCard" />
           </div>
-          <h2 className="mb-6 font-display text-xl font-bold">Menganalisis Lahan Anda...</h2>
-          <ul className="mx-auto max-w-xs space-y-3 text-left">
+          <h2 className="mb-5 font-display text-base font-bold">Menganalisis Lahan Anda...</h2>
+          <ul className="mx-auto max-w-xs space-y-2.5 text-left">
             {steps.map((s, i) => (
               <li key={s} className="flex items-center gap-2 text-sm">
                 {i < doneCount ? (
-                  <Check className="h-4 w-4 text-cream-light" />
+                  <Check className="h-4 w-4 text-white" />
                 ) : (
-                  <Circle className="h-4 w-4 text-cream-light/50" />
+                  <Circle className="h-4 w-4 text-white/50" />
                 )}
                 {s}
               </li>
@@ -78,14 +78,14 @@ export default function LoadingPage() {
 
       <Footer />
 
- <Modal
-  open={showError}
-  onClose={() => router.push("/analisis")}
-  variant="error"
-  title="Gagal Memuat Data Lahan"
-  description={errorMessage || "Koneksi ke server data satelit atau cuaca sedang terganggu. Silakan periksa koneksi internet Anda atau coba beberapa saat lagi."}
-  onConfirm={() => window.location.reload()}
-/>
+      <Modal
+        open={showError}
+        onClose={() => router.push("/analisis")}
+        variant="error"
+        title="Gagal Memuat Data Lahan"
+        description={errorMessage || "Koneksi ke server data satelit atau cuaca sedang terganggu. Silakan periksa koneksi internet Anda atau coba beberapa saat lagi."}
+        onConfirm={() => window.location.reload()}
+      />
     </div>
   );
 }

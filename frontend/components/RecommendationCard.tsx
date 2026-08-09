@@ -24,27 +24,32 @@ export default function RecommendationCard({
   return (
     <button
       onClick={onClick}
-      className={`flex w-full items-center gap-4 rounded-2xl ${rankColor(rank)} p-4 text-left text-cream-light transition-transform hover:scale-[1.01]`}
+      className="flex w-full items-stretch overflow-hidden rounded-2xl bg-white shadow-sm transition-transform hover:scale-[1.01]"
     >
-      <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-cream-light font-display text-sm font-bold text-forest-dark">
+      <span
+        className={`flex w-12 shrink-0 items-center justify-center ${rankColor(rank)} font-display text-lg font-bold text-forest-dark`}
+      >
         {rank}
       </span>
-      <span className="flex-1">
-        <span className="block font-display text-base font-bold">
-          {name} <span className="font-normal opacity-80">({latin})</span>
+
+      <span className="flex-1 p-3 text-left">
+        <span className="flex items-start justify-between gap-2">
+          <span className="font-display text-sm font-bold text-forest-dark">
+            {name}
+          </span>
+          <span className="shrink-0 font-display text-base font-bold text-forest-dark">
+            {score}%
+          </span>
         </span>
-        <span className="block text-xs leading-relaxed text-cream-light/85">
+        <span className="mt-0.5 block text-xs leading-relaxed text-forest-dark/60">
           {note}
         </span>
-        <span className="mt-2 block h-1.5 w-full overflow-hidden rounded-full bg-cream-light/25">
+        <span className="mt-2 block h-1.5 w-full overflow-hidden rounded-full bg-forest-dark/15">
           <span
-            className="block h-full rounded-full bg-cream-light"
+            className="block h-full rounded-full bg-forest"
             style={{ width: `${score}%` }}
           />
         </span>
-      </span>
-      <span className="shrink-0 font-display text-lg font-bold">
-        {score}%
       </span>
     </button>
   );

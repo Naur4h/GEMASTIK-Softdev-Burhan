@@ -1,7 +1,6 @@
 import type { Config } from "tailwindcss";
 
 const config: Config = {
-  
   content: [
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
     "./components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -9,38 +8,28 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Hijau tua - warna utama (button, card gelap, navbar aktif)
-        forest: {
-          DEFAULT: "#3E4A2D",
-          light: "#4E5C38",
-          dark: "#2E3821",
-        },
-        // Hijau sedang - card sekunder / hover
+        forest: { DEFAULT: "#3E4A2D", light: "#4E5C38", dark: "#2E3821" },
         moss: "#6E7F4E",
-        // Krem terang - background utama & card muda
-        cream: {
-          DEFAULT: "#F7F3E3",
-          light: "#FBF9F0",
-        },
-        // Kuning-krem - card highlight (statistik, urgensi)
+        cream: { DEFAULT: "#F7F3E3", light: "#FBF9F0" },
         sand: "#F1EAC0",
-        // Aksen terracotta - highlight kata penting
         clay: "#E08A6B",
-        // Merah - status error / peringatan
         alert: "#B5342A",
-        rank1: "#3E4A2D",
-        rank2: "#8A7B2E",
-        rank3: "#8C3B33",
-        
+        rank1: "#ECA3A3",
+        rank2: "#DBD47F",
+        rank3: "#A3C06B",
+        // Warna baru versi mobile-first
+        header: "#57663A",
+        footer: "#DBD698",
+        loadingCard: "#738942",
+        kondisiCard: "#738942",
+        ringkasanCard: "#A3C06B",
       },
-      fontFamily: {
-        display: ["var(--font-display)", "sans-serif"],
-        body: ["var(--font-body)", "sans-serif"],
-      },
-      borderRadius: {
-        "2xl": "1.25rem",
-        "3xl": "1.75rem",
-      },
+     fontFamily: {
+  display: ["var(--font-lexend)", "sans-serif"],
+  body: ["var(--font-lexend)", "sans-serif"],
+  lexend: ["var(--font-lexend)", "sans-serif"],
+},
+      borderRadius: { "2xl": "1.25rem", "3xl": "1.75rem" },
     },
   },
   plugins: [],
