@@ -98,7 +98,7 @@ export default function AnalisisPage() {
 
           <button
             onClick={handleUseCurrentLocation}
-            className="mb-4 flex w-full items-center justify-center gap-2 rounded-full bg-forest py-3 text-sm font-semibold text-white hover:bg-forest-dark"
+            className="mb-4 flex w-full items-center justify-center gap-2 rounded-full bg-[#567156] py-3 text-sm font-semibold text-white hover:bg-forest-dark"
           >
             <MapPin className="h-4 w-4" />
             Gunakan lokasimu sekarang
@@ -172,7 +172,7 @@ export default function AnalisisPage() {
           <div className="flex gap-3">
             <button
               onClick={handleSubmit}
-              className="flex-1 rounded-full bg-forest py-3 text-sm font-semibold text-white hover:bg-forest-dark"
+              className="flex-1 rounded-full bg-[#567156] py-3 text-sm font-semibold text-white hover:bg-forest-dark"
             >
               KIRIM
             </button>
