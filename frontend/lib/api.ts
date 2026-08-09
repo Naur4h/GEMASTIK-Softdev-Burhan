@@ -86,6 +86,25 @@ const MOCK_RESPONSE: RecommendResponse = {
         elevasi_ideal: "0 - 1200 mdpl",
         skor_kesesuaian: 0.78,
       },
+
+      {
+  id: "kemiri",
+  nama: "Kemiri",
+  nama_latin: "Aleurites moluccanus",
+  kesuburan_ideal: "-",
+  ph_ideal: "5.5 - 7.0",
+  elevasi_ideal: "0 - 1000 mdpl",
+  skor_kesesuaian: 0.65,
+},
+{
+  id: "kacangpanjang",
+  nama: "Kacang Panjang",
+  nama_latin: "Vigna unguiculata",
+  kesuburan_ideal: "-",
+  ph_ideal: "5.5 - 6.5",
+  elevasi_ideal: "0 - 800 mdpl",
+  skor_kesesuaian: 0.58,
+},
     ],
   },
 };

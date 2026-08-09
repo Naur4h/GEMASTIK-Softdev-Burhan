@@ -17,6 +17,8 @@ const config: Config = {
         rank1: "#ECA3A3",
         rank2: "#DBD47F",
         rank3: "#A3C06B",
+        rank4: "#C9A876",
+        rank5: "#8FAE5A",
         // Warna baru versi mobile-first
         header: "#57663A",
         footer: "#DBD698",

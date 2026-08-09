@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useRef, useState } from "react";
@@ -6,12 +7,14 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import StepProgress from "@/components/StepProgress";
 import Modal from "@/components/Modal";
+import RiwayatModal from "@/components/RiwayatModal";
 import { Check, Circle, Loader2 } from "lucide-react";
 import { postAnalisisLahan, STORAGE_KEY_FORM, STORAGE_KEY_RESULT } from "@/lib/api";
 
 const steps = ["Data satelit", "Data cuaca", "Data tanah", "Data elevasi"];
 
 export default function LoadingPage() {
+  const [showRiwayat, setShowRiwayat] = useState(false);
   const router = useRouter();
   const [doneCount, setDoneCount] = useState(0);
   const [errorMessage, setErrorMessage] = useState("");
@@ -52,15 +55,16 @@ export default function LoadingPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
-      <Navbar />
-      <StepProgress step={2} label="Langkah 2: Analisis Cerdas NUSA-CROP" />
+      <Navbar onRiwayatClick={() => setShowRiwayat(true)} />
 
       <section className="flex flex-1 items-center justify-center px-4 py-6">
         <div className="w-full max-w-sm rounded-2xl bg-loadingCard p-8 text-center text-white">
           <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-white">
             <Loader2 className="h-7 w-7 animate-spin text-loadingCard" />
           </div>
-          <h2 className="mb-5 font-display text-base font-bold">Menganalisis Lahan Anda...</h2>
+          <h2 className="mb-5 font-display text-base font-bold">
+            Menganalisis Lahan Anda...
+          </h2>
           <ul className="mx-auto max-w-xs space-y-2.5 text-left">
             {steps.map((s, i) => (
               <li key={s} className="flex items-center gap-2 text-sm">
@@ -78,14 +82,23 @@ export default function LoadingPage() {
 
       <Footer />
 
+      <RiwayatModal
+        open={showRiwayat}
+        onClose={() => setShowRiwayat(false)}
+      />
+
       <Modal
         open={showError}
         onClose={() => router.push("/analisis")}
         variant="error"
         title="Gagal Memuat Data Lahan"
-        description={errorMessage || "Koneksi ke server data satelit atau cuaca sedang terganggu. Silakan periksa koneksi internet Anda atau coba beberapa saat lagi."}
+        description={
+          errorMessage ||
+          "Koneksi ke server data satelit atau cuaca sedang terganggu. Silakan periksa koneksi internet Anda atau coba beberapa saat lagi."
+        }
         onConfirm={() => window.location.reload()}
       />
     </div>
   );
 }
+

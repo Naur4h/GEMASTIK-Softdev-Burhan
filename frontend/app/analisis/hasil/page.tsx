@@ -37,12 +37,12 @@ export default function HasilPage() {
         </button>
 
 <div className="relative">
-  <div className="rounded-2xl bg-kondisiCard px-4 py-3 text-center">
+  <div className="rounded-t-2xl bg-kondisiCard px-4 py-3 text-center">
     <h3 className="font-display text-sm font-bold uppercase text-white">
       Kondisi Lingkungan Terdeteksi
     </h3>
   </div>
-  <div className="-mt-3 rounded-2xl bg-white p-4 pt-6 shadow-md">
+<div className="rounded-b-2xl bg-white p-4 shadow-sm">
     <div className="grid grid-cols-2 gap-3">
       <div className="rounded-xl bg-kondisiCard p-3 text-white">
         <p className="text-[10px] font-semibold uppercase opacity-80">Curah Hujan</p>
@@ -74,13 +74,13 @@ export default function HasilPage() {
   </div>
 </div>
 
-   <div className="relative mt-6">
-  <div className="rounded-2xl bg-kondisiCard px-4 py-3 text-center">
+   <div className="relative mt-8">
+  <div className="rounded-t-2xl bg-kondisiCard px-4 py-3 text-center">
     <h3 className="font-display text-sm font-bold uppercase text-white">
-      Kondisi Lingkungan Terdeteksi
+      Rekomendasi Tanaman Lokal
     </h3>
   </div>
-  <div className="-mt-3 rounded-2xl bg-white p-4 pt-6 shadow-md">
+<div className="rounded-b-2xl bg-white p-4 shadow-sm">
     <div className="space-y-3">
       {rekomendasi.map((r, i) => (
         <RecommendationCard

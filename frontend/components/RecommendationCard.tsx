@@ -10,9 +10,10 @@ type RecommendationCardProps = {
 function rankColor(rank: number) {
   if (rank === 1) return "bg-rank1";
   if (rank === 2) return "bg-rank2";
-  return "bg-rank3";
+  if (rank === 3) return "bg-rank3";
+  if (rank === 4) return "bg-rank4";
+  return "bg-rank5";
 }
-
 export default function RecommendationCard({
   rank,
   name,

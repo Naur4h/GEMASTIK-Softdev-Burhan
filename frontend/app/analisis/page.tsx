@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -7,6 +8,7 @@ import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 import Button from "@/components/Button";
 import Modal from "@/components/Modal";
+import RiwayatModal from "@/components/RiwayatModal";
 import { MapPin } from "lucide-react";
 import { STORAGE_KEY_FORM } from "@/lib/api";
 
@@ -20,6 +22,7 @@ const MapPicker = dynamic(() => import("@/components/MapPicker"), {
 });
 
 export default function AnalisisPage() {
+  const [showRiwayat, setShowRiwayat] = useState(false);
   const router = useRouter();
   const [showResetModal, setShowResetModal] = useState(false);
   const [lat, setLat] = useState<number | null>(null);
@@ -70,7 +73,7 @@ export default function AnalisisPage() {
 
   return (
     <div className="flex min-h-screen flex-col bg-white">
-      <Navbar />
+      <Navbar onRiwayatClick={() => setShowRiwayat(true)} />
       <section className="flex-1 px-4 py-4">
         <h2 className="mb-4 text-center font-display text-base font-bold text-forest-dark">
           Langkah 1: Masukkan Data
@@ -182,6 +185,8 @@ export default function AnalisisPage() {
         </div>
       </section>
       <Footer />
+
+      <RiwayatModal open={showRiwayat} onClose={() => setShowRiwayat(false)} />
 
       <Modal
         open={showResetModal}
