@@ -42,7 +42,7 @@ export default function HasilPage() {
       Kondisi Lingkungan Terdeteksi
     </h3>
   </div>
-<div className="rounded-b-2xl bg-white p-4 shadow-lg">
+<div className="rounded-b-2xl bg-white p-4 shadow-md">
     <div className="grid grid-cols-2 gap-3">
       <div className="rounded-xl bg-kondisiCard p-3 text-white">
         <p className="text-[10px] font-semibold uppercase opacity-80">Curah Hujan</p>
@@ -80,7 +80,7 @@ export default function HasilPage() {
       Rekomendasi Tanaman Lokal
     </h3>
   </div>
-<div className="rounded-b-2xl bg-white p-4 shadow-lg">
+<div className="rounded-b-2xl bg-white p-4 shadow-md">
     <div className="space-y-3">
       {rekomendasi.map((r, i) => (
         <RecommendationCard
