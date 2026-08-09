@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { PlayCircle, History, ScanSearch, Globe } from "lucide-react";
+import { PlayCircle, History, ScanSearch } from "lucide-react";
 
 type NavbarProps = {
   onRiwayatClick?: () => void;
@@ -10,7 +10,6 @@ export default function Navbar({ onRiwayatClick }: NavbarProps) {
     <header className="w-full bg-header">
       <div className="flex items-center justify-between px-4 py-3">
         <Link href="/" className="flex items-center gap-1.5">
-          <Globe className="h-5 w-5 text-cream-light" strokeWidth={2} />
           <span className="font-display text-sm font-bold tracking-wide text-cream-light">
             NUSA-CROP
           </span>

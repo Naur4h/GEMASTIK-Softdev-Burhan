@@ -27,7 +27,7 @@ export default function HomePage() {
             </button>
           </a>
 
-          <div className="absolute -bottom-4 -right-4 h-52 w-52">
+         <div className="absolute -bottom-4 -right-4 h-80 w-80">
             <Image
               src="/images/hand.png"
               alt="Tangan menabur tanah"

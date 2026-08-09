@@ -1,6 +1,6 @@
 
 "use client";
-
+import { getAnonymousId } from "@/lib/anonymousId";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import { useRouter } from "next/navigation";
@@ -55,6 +55,7 @@ export default function AnalisisPage() {
       lon: lng,
       luas_lahan: luasLahan ? Number(luasLahan) : undefined,
       musim_target: musimTanam || undefined,
+      anonymous_id: getAnonymousId(),
     };
 
     sessionStorage.setItem(STORAGE_KEY_FORM, JSON.stringify(payload));

@@ -40,6 +40,7 @@ export type AnalisisPayload = {
   lon: number;
   luas_lahan?: number;
   musim_target?: string;
+  anonymous_id: string;
 };
 
 // Data pura-pura, bentuknya PERSIS sama kayak response asli dari backend
