@@ -5,7 +5,6 @@ export default function NdviScale() {
         NDVI
       </p>
 
-      {/* Gradient bar merah → kuning → hijau */}
       <div
         className="h-6 w-full rounded-full"
         style={{
@@ -14,18 +13,19 @@ export default function NdviScale() {
         }}
       />
 
-      {/* Label angka */}
-      <div className="mt-1 flex justify-between text-xs font-semibold text-forest-dark">
-        <span>&lt;0.2</span>
-        <span>0.2 - 0.5</span>
-        <span>&gt;0.6</span>
-      </div>
-
-      {/* Label kategori */}
-      <div className="mt-1 flex justify-between text-xs text-forest-dark/70">
-        <span>Marginal</span>
-        <span>Sedang</span>
-        <span>Subur</span>
+      <div className="mt-1 flex justify-between text-center">
+        <div className="flex-1">
+          <p className="text-xs font-semibold text-forest-dark">&lt;0.2</p>
+          <p className="text-xs text-forest-dark/70">Marginal</p>
+        </div>
+        <div className="flex-1">
+          <p className="text-xs font-semibold text-forest-dark">0.2 - 0.5</p>
+          <p className="text-xs text-forest-dark/70">Sedang</p>
+        </div>
+        <div className="flex-1 text-right">
+          <p className="text-xs font-semibold text-forest-dark">&gt;0.6</p>
+          <p className="text-xs text-forest-dark/70">Subur</p>
+        </div>
       </div>
     </div>
   );
