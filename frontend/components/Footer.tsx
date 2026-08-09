@@ -24,9 +24,7 @@ export default function Footer() {
 
         <span>Nusa-Crop</span>
 
-        <Sun className="h-3 w-3 shrink-0" strokeWidth={2} />
-
-        <span>Diversifikasi Pangan</span>
+     
       </div>
     </footer>
   );
