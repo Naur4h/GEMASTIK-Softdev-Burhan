@@ -56,7 +56,10 @@ export default function LoadingPage() {
   return (
     <div className="flex min-h-screen flex-col bg-white">
       <Navbar onRiwayatClick={() => setShowRiwayat(true)} />
-
+    <StepProgress
+  step={2}
+  label="Langkah 2: Menganalisis Data"
+/>
       <section className="flex flex-1 items-center justify-center px-4 py-6">
         <div className="w-full max-w-sm rounded-2xl bg-loadingCard p-8 text-center text-white">
           <div className="mx-auto mb-5 flex h-14 w-14 items-center justify-center rounded-full bg-white">
@@ -101,4 +104,3 @@ export default function LoadingPage() {
     </div>
   );
 }
-
