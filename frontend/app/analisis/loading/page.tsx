@@ -58,7 +58,7 @@ export default function LoadingPage() {
       <Navbar onRiwayatClick={() => setShowRiwayat(true)} />
     <StepProgress
   step={2}
-  label="Langkah 2: Menganalisis Data"
+  label="Langkah 2: Analisis Cerdas NUSA-CROP"
 />
       <section className="flex flex-1 items-center justify-center px-4 py-6">
         <div className="w-full max-w-sm rounded-2xl bg-loadingCard p-8 text-center text-white">
