@@ -5,7 +5,7 @@ import RiwayatModal from "@/components/RiwayatModal";
 import Image from "next/image";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-
+import { ArrowUpRight } from "lucide-react";
 export default function HomePage() {
   const [showRiwayat, setShowRiwayat] = useState(false);
 
@@ -20,11 +20,20 @@ export default function HomePage() {
             Kenali Tanahmu, Tanam Lebih{" "}
             <span className="bg-forest px-1.5 text-cream-light">Beragam</span>
           </h1>
-            <a
+            {/* <a
               href="/analisis"
               className="relative z-10 mt-4 inline-block rounded-full bg-cream-light px-5 py-2.5 text-sm font-semibold text-forest-dark"
             >
               Coba Sekarang ↗
+              
+            </a> */}
+
+            <a
+              href="/analisis"
+              className="relative z-10 mt-4 inline-flex items-center gap-1 whitespace-nowrap rounded-full bg-cream-light px-5 py-2.5 text-sm font-semibold text-forest-dark"
+            >
+              Coba Sekarang
+              <ArrowUpRight className="h-5 w-5 shrink-0" strokeWidth={1.5} />
             </a>
 
             <div className="pointer-events-none absolute -bottom-4 -right-4 h-80 w-80">

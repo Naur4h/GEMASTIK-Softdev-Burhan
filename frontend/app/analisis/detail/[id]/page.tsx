@@ -10,6 +10,7 @@ import Footer from "@/components/Footer";
 import CircularGauge from "@/components/CircularGauge";
 import RiwayatModal from "@/components/RiwayatModal";
 import { useCropDetail } from "@/lib/useCropDetail";
+import { ArrowUpRight } from "lucide-react";
 
 export default function DetailTanamanPage() {
   const [showRiwayat, setShowRiwayat] = useState(false);
